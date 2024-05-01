@@ -39,7 +39,7 @@ public class Product {
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public Strng getDescription() { return description; }
+    public String getDescription() { return description; }
     public void setDescription(String description) {
         this.description = description;
     }
