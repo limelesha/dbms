@@ -10,20 +10,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import com.group7.dbms.RepresentationIncluded;
+import com.group7.dbms.RepresentationType;
+
 
 @Entity
 public class Product {
 
+    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Id
     @GeneratedValue
     private Long id;
 
+    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
     private String name;
 
+    @RepresentationIncluded(RepresentationType.FULL)
     @Basic(optional=false)
     private String description;
 
+    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
     private BigDecimal price;
 

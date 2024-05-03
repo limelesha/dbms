@@ -8,11 +8,13 @@ import org.hibernate.SessionFactory;
 
 public class Main {
 
-    private static SessionFactory sessionFactory;
+    public static SessionFactory sessionFactory;
 
-    public static void main(String[] args) {
+    static {
         setUpSessionFactory();
     }
+
+    public static void main(String[] args) {}
 
     private static void setUpSessionFactory() {
         final StandardServiceRegistry registry =
