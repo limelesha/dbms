@@ -56,6 +56,7 @@
             <version>42.7.0</version>
         </dependency>
 
+        <!-- GSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -111,9 +112,6 @@
         </pluginManagement>
 
         <resources>
-            <resource>
-                <directory>src/main/java/com/group7/dbms/config</directory>
-            </resource>
             <resource>
                 <directory>src/main/java/com/group7/dbms/controllers</directory>
             </resource>
