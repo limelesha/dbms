@@ -34,7 +34,10 @@ public class Main {
         System.out.println(
             fullRepresentationGson.toJson(productsDAO.getAllProducts())
         );
-
+        productsDAO.remove(product);
+        System.out.println(
+            fullRepresentationGson.toJson(productsDAO.getAllProducts())
+        );
         sessionFactory.close();
     }
 
