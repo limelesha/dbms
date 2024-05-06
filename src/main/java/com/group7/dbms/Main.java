@@ -1,5 +1,7 @@
 package com.group7.dbms;
 
+import java.math.BigDecimal;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,6 +24,18 @@ public class Main {
         fullRepresentationGson = setUpGson(RepresentationType.FULL);
         SessionFactory sessionFactory = setUpSessionFactory();
         productsDAO = new HibernateProductsDAO(sessionFactory);
+
+        Product product = new Product(
+            "Donut",
+            "Tasty donut",
+            new BigDecimal(4.99)
+        );
+        productsDAO.save(product);
+        System.out.println(
+            fullRepresentationGson.toJson(productsDAO.getAllProducts())
+        );
+
+        sessionFactory.close();
     }
 
     private static SessionFactory setUpSessionFactory()
