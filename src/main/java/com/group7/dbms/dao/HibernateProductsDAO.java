@@ -3,11 +3,6 @@ package com.group7.dbms;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-// import com.group7.dbms.models.Product;
 
 public class HibernateProductsDAO implements ProductsDAO {
     private SessionFactory sessionFactory;
@@ -20,32 +15,19 @@ public class HibernateProductsDAO implements ProductsDAO {
      */
     @Override
     public Product getByID(Long id) {
-        try(Session session =  sessionFactory.openSession();)
-        {
-            Transaction transaction = session.beginTransaction();
-            Product result  = session.get(Product.class, id);
-            transaction.commit();
-            return result;
-        } catch (HibernateException e) {
-            //TODO handle the exception properly
-            throw(e);
-        }
+        // fromTransaction() existed all the way along :skull:
+        return sessionFactory.fromTransaction(session -> {
+            return session.get(Product.class, id);
+        });
     }
 
     @Override
     public List<Product> getAllProducts() {
-        try(Session session =  sessionFactory.openSession();)
-        {
-            Transaction transaction = session.beginTransaction();
-            List<Product> result = session.createQuery(
-                "FROM Product", Product.class
+        return sessionFactory.fromTransaction(session -> {
+            return session.createQuery(
+                "From Product", Product.class
             ).list();
-            transaction.commit();
-            return result;
-        } catch (HibernateException e) {
-            //TODO handle the exception properly
-            throw(e);
-        }
+        });
     }
 
     @Override
