@@ -10,6 +10,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.SessionFactory;
 
+import spark.Spark;
+
 
 public class Main {
 
@@ -24,21 +26,19 @@ public class Main {
         fullRepresentationGson = setUpGson(RepresentationType.FULL);
         SessionFactory sessionFactory = setUpSessionFactory();
         productsDAO = new HibernateProductsDAO(sessionFactory);
+        ProductController productController = new ProductController(productsDAO);
 
         Product product = new Product(
-            "Donut",
-            "Tasty donut",
+            "Doughnut",
+            "Tasty Doughnut",
             new BigDecimal(4.99)
         );
         productsDAO.save(product);
-        System.out.println(
-            fullRepresentationGson.toJson(productsDAO.getAllProducts())
-        );
-        productsDAO.remove(product);
-        System.out.println(
-            fullRepresentationGson.toJson(productsDAO.getAllProducts())
-        );
-        sessionFactory.close();
+
+        Spark.get("/assortment", productController::getAllProducts, partialRepresentationGson::toJson);
+        Spark.get("/assortment/:product-id", productController::getByID, fullRepresentationGson::toJson);
+
+        Spark.awaitInitialization();
     }
 
     private static SessionFactory setUpSessionFactory()

@@ -31,9 +31,11 @@ public class HibernateProductsDAO implements ProductsDAO {
     }
 
     @Override
-    public void save(Product product) {
-        sessionFactory.inTransaction(session -> {
+    public Long save(Product product) {
+        return sessionFactory.fromTransaction(session -> {
             session.persist(product);
+            session.flush();
+            return product.getId();
         });
     }
 
@@ -56,6 +58,8 @@ public class HibernateProductsDAO implements ProductsDAO {
      */
     @Override
     public void remove(Long id) {
-        remove(getByID(id));
+        Product product = new Product();
+        product.setId(id);
+        remove(product);
     }
 }
