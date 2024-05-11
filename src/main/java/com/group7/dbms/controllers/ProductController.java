@@ -23,7 +23,7 @@ public class ProductController {
     }
 
     public Object getByID(Request req, Response res) {
-        Long id = Long.valueOf(req.params(":product-id"));
+        Long id = Long.parseLong(req.params(":product-id"));
         res.status(200);
         return productsDAO.getByID(id);
     }
@@ -41,14 +41,16 @@ public class ProductController {
     }
 
     public Object update(Request req, Response res) {
+        Long id = Long.parseLong(req.params(":product-id"));
         Product product = deserializer.fromJson(req.body(), Product.class);
+        product.setId(id);
         productsDAO.update(product);
         res.status(200);
         return res.body();
     }
 
     public Object remove(Request req, Response res) {
-        Long id = Long.parseLong(req.body());
+        Long id = Long.parseLong(req.params(":product-id"));
         productsDAO.remove(id);
         res.status(200);
         return res.body();
