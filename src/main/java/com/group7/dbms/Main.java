@@ -26,13 +26,17 @@ public class Main {
         fullRepresentationGson = setUpGson(RepresentationType.FULL);
         SessionFactory sessionFactory = setUpSessionFactory();
         productsDAO = new HibernateProductsDAO(sessionFactory);
-        ProductController productController = new ProductController(productsDAO);
+        ProductController productController = new ProductController(
+            productsDAO,
+            fullRepresentationGson::fromJson
+        );
 
         Product product = new Product(
             "Doughnut",
             "Tasty Doughnut",
             new BigDecimal(4.99)
         );
+
         productsDAO.save(product);
 
         Spark.get("/assortment", productController::getAllProducts, partialRepresentationGson::toJson);
