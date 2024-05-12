@@ -58,8 +58,6 @@ public class HibernateProductsDAO implements ProductsDAO {
      */
     @Override
     public void remove(Long id) {
-        Product product = new Product();
-        product.setId(id);
-        remove(product);
+        remove(getByID(id));
     }
 }
