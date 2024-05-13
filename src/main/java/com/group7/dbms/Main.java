@@ -43,12 +43,16 @@ public class Main {
         Spark.redirect.get("/products", "/products/");
         Spark.get("/products/:product-id", productController::getByID, fullRepresentationGson::toJson);
 
-        Spark.post("/products/", productController::save);
+        Spark.post("/products/", productController::save, fullRepresentationGson::toJson);
         Spark.redirect.post("/products", "/products/");
         
         Spark.put("/products/:product-id", productController::update);
 
         Spark.delete("/products/:product-id", productController::remove);
+        
+        Spark.after((req, res) -> {
+            res.type("application/json");
+        });
 
         Spark.awaitInitialization();
     }
