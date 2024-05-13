@@ -31,11 +31,11 @@ public class HibernateProductsDAO implements ProductsDAO {
     }
 
     @Override
-    public Long save(Product product) {
+    public Product save(Product product) {
         return sessionFactory.fromTransaction(session -> {
             session.persist(product);
             session.flush();
-            return product.getId();
+            return product;
         });
     }
 
