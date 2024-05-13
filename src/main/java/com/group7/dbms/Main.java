@@ -39,9 +39,9 @@ public class Main {
 
         productsDAO.save(product);
 
-        Spark.get("/assortment/", productController::getAllProducts, partialRepresentationGson::toJson);
-        Spark.redirect.get("/assortment", "/assortment/");
-        Spark.get("/assortment/:product-id", productController::getByID, fullRepresentationGson::toJson);
+        Spark.get("/products/", productController::getAllProducts, partialRepresentationGson::toJson);
+        Spark.redirect.get("/products", "/products/");
+        Spark.get("/products/:product-id", productController::getByID, fullRepresentationGson::toJson);
 
         Spark.post("/products/", productController::save);
         Spark.redirect.post("/products", "/products/");
