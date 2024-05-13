@@ -35,9 +35,9 @@ public class ProductController {
 
     public Object save(Request req, Response res) {
         Product product = deserializer.fromJson(req.body(), Product.class);
-        productsDAO.save(product);
+        product = productsDAO.save(product);
         res.status(201);
-        return res.body();
+        return product;
     }
 
     public Object update(Request req, Response res) {
@@ -46,13 +46,13 @@ public class ProductController {
         product.setId(id);
         productsDAO.update(product);
         res.status(200);
-        return res.body();
+        return "";
     }
 
     public Object remove(Request req, Response res) {
         Long id = Long.parseLong(req.params(":product-id"));
         productsDAO.remove(id);
         res.status(200);
-        return res.body();
+        return "";
     }
 }
