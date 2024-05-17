@@ -2,17 +2,19 @@ package com.group7.dbms;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 
 @Entity
 public class Product {
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
+    @RepresentationIncluded(RepresentationType.IDENTIFIER)
     @Id
     @GeneratedValue
     private Long id;
@@ -28,6 +30,9 @@ public class Product {
     @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
     private BigDecimal price;
+
+    @OneToMany(mappedBy="product")
+    private Set<Recipe> recipes;
 
     public Product() {}
 
@@ -47,6 +52,7 @@ public class Product {
     }
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
+    public Set<Recipe> getRecipes() { return recipes; }
 
     public boolean equals(Object obj) {
         if (this == obj)

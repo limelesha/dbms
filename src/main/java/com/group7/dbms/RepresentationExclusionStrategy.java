@@ -3,8 +3,6 @@ package com.group7.dbms;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
-import com.group7.dbms.RepresentationIncluded;
-
 
 public class RepresentationExclusionStrategy implements ExclusionStrategy {
 
