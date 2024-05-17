@@ -4,14 +4,9 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import com.group7.dbms.RepresentationIncluded;
-import com.group7.dbms.RepresentationType;
 
 
 @Entity
