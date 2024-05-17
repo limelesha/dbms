@@ -4,53 +4,53 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 
-public class HibernateProductsDAO implements ProductsDAO {
+public class HibernateRecipesDAO implements RecipesDAO {
     private SessionFactory sessionFactory;
 
-    HibernateProductsDAO(SessionFactory sessionFactory) {
+    HibernateRecipesDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    
-    /**
+
+     /**
      * Object by id value or null if not found
      */
     @Override
-    public Product getByID(Long id) {
+    public Recipe getByID(Long id) {
         // fromTransaction() existed all the way along :skull:
         return sessionFactory.fromTransaction(session -> {
-            return session.get(Product.class, id);
+            return session.get(Recipe.class, id);
         });
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<Recipe> getAllRecipes() {
         return sessionFactory.fromTransaction(session -> {
             return session.createQuery(
-                "From Product", Product.class
+                "From Recipe", Recipe.class
             ).list();
         });
     }
 
     @Override
-    public Product save(Product product) {
+    public Recipe save(Recipe recipe) {
         return sessionFactory.fromTransaction(session -> {
-            session.persist(product);
+            session.persist(recipe);
             session.flush();
-            return product;
+            return recipe;
         });
     }
 
     @Override
-    public void update(Product product) {
+    public void update(Recipe recipe) {
         sessionFactory.inTransaction(session -> {
-            session.merge(product);
+            session.merge(recipe);
         });
     }
 
     @Override
-    public void remove(Product product) {
+    public void remove(Recipe recipe) {
         sessionFactory.inTransaction(session -> {
-            session.remove(product);
+            session.remove(recipe);
         });
     }
 
