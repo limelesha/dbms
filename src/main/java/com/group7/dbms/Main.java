@@ -31,25 +31,17 @@ public class Main {
             fullRepresentationGson::fromJson
         );
 
-        Product product = new Product(
-            "Doughnut",
-            "Tasty Doughnut",
-            new BigDecimal(4.99)
-        );
-
-        productsDAO.save(product);
-
         Spark.get("/products/", productController::getAllProducts, partialRepresentationGson::toJson);
         Spark.redirect.get("/products", "/products/");
         Spark.get("/products/:product-id", productController::getByID, fullRepresentationGson::toJson);
 
         Spark.post("/products/", productController::save, fullRepresentationGson::toJson);
         Spark.redirect.post("/products", "/products/");
-        
+
         Spark.put("/products/:product-id", productController::update);
 
         Spark.delete("/products/:product-id", productController::remove);
-        
+
         Spark.after((req, res) -> {
             res.type("application/json");
         });
@@ -66,6 +58,7 @@ public class Main {
         try {
             sessionFactory = new MetadataSources(registry)
                 .addAnnotatedClass(Product.class)
+                .addAnnotatedClass(Recipe.class)
                 .buildMetadata()
                 .buildSessionFactory();
         } catch (Exception exception) {
