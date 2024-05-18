@@ -57,6 +57,7 @@ public class Main {
             .build();
         try {
             sessionFactory = new MetadataSources(registry)
+                .addAnnotatedClass(Bakery.class)
                 .addAnnotatedClass(Product.class)
                 .addAnnotatedClass(Recipe.class)
                 .buildMetadata()
