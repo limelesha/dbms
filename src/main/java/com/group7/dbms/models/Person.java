@@ -1,6 +1,5 @@
 package com.group7.dbms;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,7 +11,7 @@ import jakarta.persistence.OneToMany;
 
 
 @Entity
-public class Product {
+public class Person {
 
     @RepresentationIncluded(RepresentationType.IDENTIFIER)
     @Id
@@ -25,44 +24,39 @@ public class Product {
 
     @RepresentationIncluded(RepresentationType.FULL)
     @Basic(optional=false)
-    private String description;
+    private String email;
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
-    private BigDecimal price;
+    private String passwordHash;
 
-    @OneToMany(mappedBy="product")
-    private Set<Recipe> recipes;
-
-    @OneToMany(mappedBy="product")
+    @OneToMany(mappedBy="author")
     private Set<Feedback> feedback;
 
-    public Product() {}
+    public Person() {}
 
-    public Product(String name, String description, BigDecimal price) {
+    public Person(String name, String email, String passwordHash) {
         this.name = name;
-        this.description = description;
-        this.price = price;
+        this.email = email;
+        this.passwordHash = passwordHash;
     }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) {
-        this.description = description;
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
-    public Set<Recipe> getRecipes() { return recipes; }
 
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
-        Product that = (Product) obj;
+        Person that = (Person) obj;
         return Objects.equals(this.id, that.id);
     }
 

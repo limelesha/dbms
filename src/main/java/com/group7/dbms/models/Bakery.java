@@ -2,11 +2,13 @@ package com.group7.dbms;
 
 import java.time.LocalTime;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import org.hibernate.annotations.Check;
 
@@ -32,6 +34,9 @@ public class Bakery {
     @Basic(optional=false)
     private LocalTime closeTime;
 
+    @OneToMany(mappedBy="location")
+    private Set<Employee> staff;
+
     public Bakery() {}
 
     public Bakery(String address, LocalTime openTime, LocalTime closeTime) {
@@ -50,6 +55,7 @@ public class Bakery {
     public void setCloseTime(LocalTime closeTime) {
         this.closeTime = closeTime;
     }
+    public Set<Employee> getStaff() { return staff; }
 
     public boolean equals(Object obj) {
         if (this == obj)

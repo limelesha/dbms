@@ -58,8 +58,12 @@ public class Main {
         try {
             sessionFactory = new MetadataSources(registry)
                 .addAnnotatedClass(Bakery.class)
+                .addAnnotatedClass(Customer.class)
+                .addAnnotatedClass(Employee.class)
+                .addAnnotatedClass(Person.class)
                 .addAnnotatedClass(Product.class)
                 .addAnnotatedClass(Recipe.class)
+                .addAnnotatedClass(Feedback.class)
                 .buildMetadata()
                 .buildSessionFactory();
         } catch (Exception exception) {
