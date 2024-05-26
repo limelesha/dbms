@@ -32,7 +32,7 @@ public class HibernateFeedbackDAO implements FeedbackDAO {
     }
 
     @Override
-    public List<Feedback> getByCustomerId(Long id) {
+    public List<Feedback> getByPersonId(Long id) {
         return sessionFactory.fromTransaction(session -> {
             return session.createQuery(
                 "FROM Feedback WHERE author.id = " + id, Feedback.class
