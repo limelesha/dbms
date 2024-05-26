@@ -23,6 +23,15 @@ public class HibernateRecipesDAO implements RecipesDAO {
     }
 
     @Override
+    public List<Recipe> getByProductId(Long id) {
+        return sessionFactory.fromTransaction(session -> {
+            return session.createQuery(
+                "FROM Recipe WHERE Recipe.product.id = " + id, Recipe.class
+            ).list();
+        });
+    }
+
+    @Override
     public List<Recipe> getAllRecipes() {
         return sessionFactory.fromTransaction(session -> {
             return session.createQuery(
