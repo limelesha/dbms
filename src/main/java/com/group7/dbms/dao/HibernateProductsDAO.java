@@ -26,7 +26,7 @@ public class HibernateProductsDAO implements ProductsDAO {
     public List<Product> getAllProducts() {
         return sessionFactory.fromTransaction(session -> {
             return session.createQuery(
-                "From Product", Product.class
+                "FROM Product", Product.class
             ).list();
         });
     }

@@ -11,7 +11,7 @@ public class HibernateRecipesDAO implements RecipesDAO {
         this.sessionFactory = sessionFactory;
     }
 
-     /**
+    /**
      * Object by id value or null if not found
      */
     @Override
@@ -35,7 +35,7 @@ public class HibernateRecipesDAO implements RecipesDAO {
     public List<Recipe> getAllRecipes() {
         return sessionFactory.fromTransaction(session -> {
             return session.createQuery(
-                "From Recipe", Recipe.class
+                "FROM Recipe", Recipe.class
             ).list();
         });
     }
