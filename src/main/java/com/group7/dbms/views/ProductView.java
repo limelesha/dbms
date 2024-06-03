@@ -20,17 +20,17 @@ public class ProductView {
 
     private static JsonValue full(Product product) {
         return Json.object()
-            .add("id", Json.value(product.getId()))
-            .add("name", Json.value(product.getName()))
-            .add("description", Json.value(product.getDescription()))
-            .add("price", Json.value(product.getPrice().doubleValue()));
+            .add("id", product.getId())
+            .add("name", product.getName())
+            .add("description", product.getDescription())
+            .add("price", product.getPrice().doubleValue());
     }
 
     private static JsonValue partial(Product product) {
         return Json.object()
-            .add("id", Json.value(product.getId()))
-            .add("name", Json.value(product.getName()))
-            .add("price", Json.value(product.getPrice().doubleValue()));
+            .add("id", product.getId())
+            .add("name", product.getName())
+            .add("price", product.getPrice().doubleValue());
     }
 
 }
