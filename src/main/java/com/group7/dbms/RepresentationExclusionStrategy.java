@@ -4,6 +4,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
 
+@Deprecated
 public class RepresentationExclusionStrategy implements ExclusionStrategy {
 
     final RepresentationType type;
