@@ -13,12 +13,14 @@ import org.hibernate.SessionFactory;
 import spark.Spark;
 
 
+
 public class Main {
 
     private static Gson partialRepresentationGson;
     private static Gson fullRepresentationGson;
 
     private static ProductsDAO productsDAO;
+    private static RecipesDAO recipesDAO;
 
     public static void main(String[] args)
     throws Exception {
@@ -26,21 +28,22 @@ public class Main {
         fullRepresentationGson = setUpGson(RepresentationType.FULL);
         SessionFactory sessionFactory = setUpSessionFactory();
         productsDAO = new HibernateProductsDAO(sessionFactory);
-        ProductController productController = new ProductController(
-            productsDAO,
-            fullRepresentationGson::fromJson
-        );
+        recipesDAO = new HibernateRecipesDAO(sessionFactory);
+        ProductController productController = new ProductController(productsDAO);
 
-        Spark.get("/products/", productController::getAllProducts, partialRepresentationGson::toJson);
-        Spark.redirect.get("/products", "/products/");
-        Spark.get("/products/:product-id", productController::getByID, fullRepresentationGson::toJson);
 
-        Spark.post("/products/", productController::save, fullRepresentationGson::toJson);
-        Spark.redirect.post("/products", "/products/");
+        // Spark.get("/products/", productController::getAllProducts, partialRepresentationGson::toJson);
+        // Spark.redirect.get("/products", "/products/");
+        // Spark.get("/products/:product-id", productController::getByID, fullRepresentationGson::toJson);
 
-        Spark.put("/products/:product-id", productController::update);
+        // Spark.post("/products/", productController::save, fullRepresentationGson::toJson);
+        // Spark.redirect.post("/products", "/products/");
 
-        Spark.delete("/products/:product-id", productController::remove);
+        // Spark.put("/products/:product-id", productController::update);
+
+        // Spark.delete("/products/:product-id", productController::remove);
+        productController.ignite();
+        //recipeController.ignite();
 
         Spark.after((req, res) -> {
             res.type("application/json");
@@ -55,7 +58,6 @@ public class Main {
         final StandardServiceRegistry registry =
             new StandardServiceRegistryBuilder()
             .build();
-        try {
             sessionFactory = new MetadataSources(registry)
                 .addAnnotatedClass(Bakery.class)
                 .addAnnotatedClass(Customer.class)
@@ -66,14 +68,11 @@ public class Main {
                 .addAnnotatedClass(Feedback.class)
                 .buildMetadata()
                 .buildSessionFactory();
-        } catch (Exception exception) {
-            StandardServiceRegistryBuilder.destroy(registry);
-            throw(exception);
-        }
+        
         return sessionFactory;
     }
 
-    private static Gson setUpGson(RepresentationType type) {
+    public static Gson setUpGson(RepresentationType type) {
         return new GsonBuilder()
             .setExclusionStrategies(new RepresentationExclusionStrategy(type))
             .create();
