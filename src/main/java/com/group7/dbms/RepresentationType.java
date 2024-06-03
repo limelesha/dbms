@@ -1,6 +1,7 @@
 package com.group7.dbms;
 
 
+@Deprecated
 public enum RepresentationType {
 
     IDENTIFIER,
