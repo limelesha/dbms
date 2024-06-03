@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -32,7 +31,7 @@ public class Product {
     @Basic(optional=false)
     private BigDecimal price;
 
-    @OneToMany(mappedBy="product", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="product")
     private Set<Recipe> recipes;
 
     @OneToMany(mappedBy="product")

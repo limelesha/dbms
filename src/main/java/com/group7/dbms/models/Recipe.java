@@ -9,6 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @Entity
 public class Recipe {
@@ -20,6 +23,7 @@ public class Recipe {
 
     @RepresentationIncluded(RepresentationType.PARTIAL)
     @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action=OnDeleteAction.CASCADE)
     private Product product;
 
     @RepresentationIncluded(RepresentationType.FULL)

@@ -9,6 +9,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @Entity
 public class Employee {
@@ -16,6 +19,7 @@ public class Employee {
     @RepresentationIncluded(RepresentationType.PARTIAL)
     @Id
     @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action=OnDeleteAction.CASCADE)
     private Person person;
 
     @RepresentationIncluded(RepresentationType.PARTIAL)
@@ -24,6 +28,7 @@ public class Employee {
 
     @RepresentationIncluded(RepresentationType.FULL)
     @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action=OnDeleteAction.RESTRICT)
     private Bakery location;
 
     public Employee() {}

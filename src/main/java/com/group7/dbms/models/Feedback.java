@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
@@ -21,9 +23,11 @@ public class Feedback {
     private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action=OnDeleteAction.CASCADE)
     private Product product;
 
     @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action=OnDeleteAction.CASCADE)
     private Person author;
 
     @Check(constraints="rating between 1 and 5")
