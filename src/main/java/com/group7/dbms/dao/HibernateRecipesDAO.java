@@ -1,6 +1,7 @@
 package com.group7.dbms;
 
 import java.util.List;
+import java.util.LinkedList;
 
 import org.hibernate.SessionFactory;
 
@@ -25,9 +26,8 @@ public class HibernateRecipesDAO implements RecipesDAO {
     @Override
     public List<Recipe> getByProductId(Long id) {
         return sessionFactory.fromTransaction(session -> {
-            return session.createQuery(
-                "FROM Recipe WHERE Recipe.product.id = " + id, Recipe.class
-            ).list();
+            Product product = session.get(Product.class, id);
+            return new LinkedList<>(product.getRecipes());
         });
     }
 
