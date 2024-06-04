@@ -48,7 +48,6 @@ public class RecipeController {
                     res.status(404);
                     return "Recipe not found";
                 }
-                
             } else {
                 res.status(404);
                 return "Product not found";
