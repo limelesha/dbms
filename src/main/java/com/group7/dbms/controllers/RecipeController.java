@@ -4,8 +4,6 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import com.eclipsesource.json.JsonArray;
-// import com.google.gson.Gson;
-// import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -16,11 +14,6 @@ import spark.Spark;
 public class RecipeController {
     private ProductsDAO productsDAO;
     private RecipesDAO recipesDAO;
-    // private Deserializer<Recipe> deserializer;
-    // private static Gson partialRepresentationGson;
-    // private static Gson fullRepresentationGson;
-
-    
 
     public RecipeController(RecipesDAO recipesDAO, ProductsDAO productsDAO) {
         this.recipesDAO = recipesDAO;

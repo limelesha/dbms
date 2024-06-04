@@ -21,6 +21,7 @@ public class Main {
 
     private static ProductsDAO productsDAO;
     private static RecipesDAO recipesDAO;
+    private static BakeriesDAO bakeriesDAO;
 
     public static void main(String[] args)
     throws Exception {
@@ -29,25 +30,14 @@ public class Main {
         SessionFactory sessionFactory = setUpSessionFactory();
         productsDAO = new HibernateProductsDAO(sessionFactory);
         recipesDAO = new HibernateRecipesDAO(sessionFactory);
+        bakeriesDAO = new HibernateBakeriesDAO(sessionFactory);
         ProductController productController = new ProductController(productsDAO);
         RecipeController recipeController = new RecipeController(recipesDAO, productsDAO);
-
-        // Spark.get("/products/", productController::getAllProducts, partialRepresentationGson::toJson);
-        // Spark.redirect.get("/products", "/products/");
-        // Spark.get("/products/:product-id", productController::getByID, fullRepresentationGson::toJson);
-
-        // Spark.post("/products/", productController::save, fullRepresentationGson::toJson);
-        // Spark.redirect.post("/products", "/products/");
-
-        // Spark.put("/products/:product-id", productController::update);
-
-        // Spark.delete("/products/:product-id", productController::remove);
+        BakeryController bakeryController = new BakeryController(bakeriesDAO);
+        
         productController.ignite();
         recipeController.ignite();
-
-        // Spark.after((req, res) -> {
-        //     res.type("application/json");
-        // });
+        bakeryController.ignite();
 
         Spark.awaitInitialization();
     }

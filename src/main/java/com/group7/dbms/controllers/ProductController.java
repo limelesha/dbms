@@ -10,10 +10,6 @@ import spark.Request;
 import spark.Response;
 import spark.Spark;
 
-interface Deserializer<T> {
-    public T fromJson(String json, Class<T> objectClass);
-}
-
 public class ProductController {
     private ProductsDAO productsDAO;
 
