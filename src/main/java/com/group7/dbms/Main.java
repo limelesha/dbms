@@ -30,7 +30,7 @@ public class Main {
         productsDAO = new HibernateProductsDAO(sessionFactory);
         recipesDAO = new HibernateRecipesDAO(sessionFactory);
         ProductController productController = new ProductController(productsDAO);
-
+        RecipeController recipeController = new RecipeController(recipesDAO, productsDAO);
 
         // Spark.get("/products/", productController::getAllProducts, partialRepresentationGson::toJson);
         // Spark.redirect.get("/products", "/products/");
@@ -43,11 +43,11 @@ public class Main {
 
         // Spark.delete("/products/:product-id", productController::remove);
         productController.ignite();
-        //recipeController.ignite();
+        recipeController.ignite();
 
-        Spark.after((req, res) -> {
-            res.type("application/json");
-        });
+        // Spark.after((req, res) -> {
+        //     res.type("application/json");
+        // });
 
         Spark.awaitInitialization();
     }
