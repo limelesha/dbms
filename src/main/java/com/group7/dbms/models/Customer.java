@@ -1,11 +1,13 @@
 package com.group7.dbms;
 
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -22,6 +24,9 @@ public class Customer {
 
     @RepresentationIncluded(RepresentationType.FULL)
     private String deliveryAddress;
+
+    @OneToMany(mappedBy="customer")
+    private Set<Order> orders;
 
     public Customer() {}
 
@@ -40,6 +45,7 @@ public class Customer {
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }
+    public Set<Order> getOrders() { return orders; }
 
     public boolean equals(Object obj) {
         if (this == obj)

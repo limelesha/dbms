@@ -52,10 +52,12 @@ public class Main {
                 .addAnnotatedClass(Bakery.class)
                 .addAnnotatedClass(Customer.class)
                 .addAnnotatedClass(Employee.class)
+                .addAnnotatedClass(Feedback.class)
+                .addAnnotatedClass(Order.class)
+                .addAnnotatedClass(OrderItem.class)
                 .addAnnotatedClass(Person.class)
                 .addAnnotatedClass(Product.class)
                 .addAnnotatedClass(Recipe.class)
-                .addAnnotatedClass(Feedback.class)
                 .buildMetadata()
                 .buildSessionFactory();
         
