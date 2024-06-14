@@ -12,9 +12,9 @@ public class BakeryDeserializer {
     public static Bakery deserialize(JsonObject json) {
         Bakery bakery = new Bakery();
         bakery.setAddress(json.getString("address", ""));
-        String openTime = json.get("openTime") != null ? json.get("openTime").toString() : "00:00";
+        String openTime = json.getString("openTime", "00:00");
         bakery.setOpenTime(LocalTime.parse(openTime, DateTimeFormatter.ISO_LOCAL_TIME));
-        String closeTime = json.get("closeTime") != null ? json.get("closeTime").toString() : "00:00";
+        String closeTime = json.getString("closeTime", "00:00");
         bakery.setCloseTime(LocalTime.parse(closeTime, DateTimeFormatter.ISO_LOCAL_TIME));
         return bakery;
     }

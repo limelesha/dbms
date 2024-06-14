@@ -38,20 +38,28 @@ public class BakeryController {
 
         Spark.redirect.get("/bakeries", "/bakeries/");
 
-        // // add bakery <- doesn't work
-        // Spark.post("/bakeries/", (req, res) -> {
-        //     JsonObject json = Json.parse(req.body()).asObject();
-        //     Bakery bakery = BakeryDeserializer.deserialize(json);
-        //     bakery = bakeriesDAO.save(bakery);
-        //     res.status(201);
-        //     return BakeryView.dump(bakery);
-        // });
+        // add bakery
+        Spark.post("/bakeries/", (req, res) -> {
+            JsonObject json = Json.parse(req.body()).asObject();
+            Bakery bakery = BakeryDeserializer.deserialize(json);
+            bakery = bakeriesDAO.save(bakery);
+            res.status(201);
+            return BakeryView.dump(bakery);
+        });
 
-        // // update bakery
-        // 
-        // });
+        // update bakery
+        Spark.put("/bakeries/:bakery-id", (req, res) -> {
+            Long id = Long.parseLong(req.params(":bakery-id"));
+            JsonObject json = Json.parse(req.body()).asObject();
+            Bakery bakery = BakeryDeserializer.deserialize(json);
+            Bakery oldBakery = bakeriesDAO.getByID(id);
+            oldBakery.setAddress(bakery.getAddress());
+            oldBakery.setOpenTime(bakery.getOpenTime());
+            oldBakery.setCloseTime(bakery.getCloseTime());
+            return BakeryView.dump(oldBakery);
+        });
 
-        // delete product
+        // delete bakery
         Spark.delete("/bakeries/:bakery-id", (req, res) -> {
             Long id = Long.parseLong(req.params(":bakery-id"));
             bakeriesDAO.remove(id);

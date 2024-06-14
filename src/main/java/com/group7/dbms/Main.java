@@ -12,8 +12,6 @@ import org.hibernate.SessionFactory;
 
 import spark.Spark;
 
-
-
 public class Main {
 
     private static Gson partialRepresentationGson;
@@ -22,8 +20,7 @@ public class Main {
     private static ProductsDAO productsDAO;
     private static RecipesDAO recipesDAO;
     private static BakeriesDAO bakeriesDAO;
-
-    public static void main(String[] args)
+    public static void main(String[] args) 
     throws Exception {
         partialRepresentationGson = setUpGson(RepresentationType.PARTIAL);
         fullRepresentationGson = setUpGson(RepresentationType.FULL);
