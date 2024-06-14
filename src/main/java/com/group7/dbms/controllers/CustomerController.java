@@ -1,0 +1,61 @@
+package com.group7.dbms;
+import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
+import com.eclipsesource.json.JsonArray;
+import spark.Request;
+import spark.Response;
+import spark.Spark;
+
+public class CustomerController {
+    private CustomersDAO customersDAO;
+
+    public CustomerController(CustomersDAO customersDAO) {
+        this.customersDAO = customersDAO;
+    }
+
+    public void ignite() {
+        // get by id
+        Spark.get("/customers/:customer-id", (req, res) -> {
+            Long id = Long.parseLong(req.params(":customer-id"));
+            Customer customer = customersDAO.getByID(id);
+            if (customer != null) {
+                res.type("application/json");
+                return CustomerView.dump(customer);
+            } else {
+                res.status(404);
+                return "Customer not found";
+            }
+        });
+        
+        // get all
+        Spark.get("/customers/", (req, res) -> {
+            res.type("application/json");
+            return CustomerView.dump(customersDAO.getAllCustomers());
+        });
+
+        Spark.redirect.get("/customers", "/customers/");
+
+        // add customer
+        Spark.post("/customers/", (req, res) -> {
+            try {
+                JsonObject json = Json.parse(req.body()).asObject();
+                Customer customer = new Customer();
+                customer.setPerson(CustomerDeserializer.extractPerson(json));
+                customer.setDeliveryAddress(CustomerDeserializer.extractDeliveryAddress(json));
+                customer = customersDAO.save(customer);
+                res.status(201);
+                //return customer;
+                return CustomerView.dump(customer);
+            } catch (Exception e) {
+                return e;
+            }
+            
+        });
+
+        // // update
+
+        // // delete 
+        // 
+    }
+}
