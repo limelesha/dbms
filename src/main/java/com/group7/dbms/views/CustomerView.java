@@ -21,7 +21,7 @@ public class CustomerView {
     private static JsonValue full(Customer customer) {
         return Json.object()
             .add("person", customer.getPerson().getId())
-            .add("delivaryAddress", customer.getDeliveryAddress());
+            .add("deliveryAddress", customer.getDeliveryAddress());
     }
 
     private static JsonValue partial(Customer customer) {
