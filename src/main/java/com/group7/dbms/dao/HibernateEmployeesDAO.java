@@ -16,12 +16,11 @@ public class HibernateEmployeesDAO implements EmployeesDAO {
      */
     @Override
     public Employee getByID(Long id) {
-        List<Employee> employees = sessionFactory.fromTransaction(session -> {
+        return sessionFactory.fromTransaction(session -> {
             return session.createQuery(
                 "FROM Employee WHERE person.id = " + id, Employee.class
-            ).list();
+            ).uniqueResult();
         });
-        return employees.get(0);
     }
 
     @Override

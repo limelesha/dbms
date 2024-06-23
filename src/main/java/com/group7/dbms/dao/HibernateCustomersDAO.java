@@ -16,12 +16,12 @@ public class HibernateCustomersDAO implements CustomersDAO {
      */
     @Override
     public Customer getByID(Long id) {
-        List<Customer> customers = sessionFactory.fromTransaction(session -> {
+        Customer customer = sessionFactory.fromTransaction(session -> {
             return session.createQuery(
                 "FROM Customer WHERE person.id = " + id, Customer.class
-            ).list();
+            ).uniqueResult();
         });
-        return customers.get(0);
+        return customer;
     }
 
     @Override

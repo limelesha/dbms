@@ -17,7 +17,6 @@ public class HibernateRecipesDAO implements RecipesDAO {
      */
     @Override
     public Recipe getByID(Long id) {
-        // fromTransaction() existed all the way along :skull:
         return sessionFactory.fromTransaction(session -> {
             return session.get(Recipe.class, id);
         });
@@ -26,8 +25,9 @@ public class HibernateRecipesDAO implements RecipesDAO {
     @Override
     public List<Recipe> getByProductId(Long id) {
         return sessionFactory.fromTransaction(session -> {
-            Product product = session.get(Product.class, id);
-            return new LinkedList<>(product.getRecipes());
+            return session.createQuery(
+                "FROM Recipe WHERE product.id = " + id, Recipe.class
+            ).list();
         });
     }
 
