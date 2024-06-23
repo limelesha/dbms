@@ -82,9 +82,7 @@ public class RecipeController {
             JsonObject json = Json.parse(req.body()).asObject();
             Recipe recipe = recipesDAO.getByID(id);
             String instructions = RecipeDeserializer.extractInstruction(json);
-            
             recipe.setInstructions(instructions);
-            
             recipesDAO.update(recipe);
             return RecipeView.dump(recipe);
         });

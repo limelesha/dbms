@@ -30,7 +30,7 @@ public class Main {
         RecipeController recipeController = new RecipeController(recipesDAO, productsDAO);
         BakeryController bakeryController = new BakeryController(bakeriesDAO);
         CustomerController customerController = new CustomerController(customersDAO);
-        EmployeeController employeeController = new EmployeeController(employeesDAO);
+        EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO);
         FeedbackController feedbackController = new FeedbackController(feedbackDAO);
 
         productController.ignite();
@@ -64,16 +64,5 @@ public class Main {
         
         return sessionFactory;
     }
-
-    // public static Gson setUpGson(RepresentationType type) {
-    //     return new GsonBuilder()
-    //         .setExclusionStrategies(new RepresentationExclusionStrategy(type))
-    //         .create();
-    // }
-
-    // private static void closeSessionFactory() {
-    //     if (sessionFactory != null)
-    //         sessionFactory.close();
-    // }
 
 }

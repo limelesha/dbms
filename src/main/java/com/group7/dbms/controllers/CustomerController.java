@@ -59,6 +59,7 @@ public class CustomerController {
                 String deliveryAddress = CustomerDeserializer.extractDeliveryAddress(json);
                 Customer oldCustomer = customersDAO.getByID(id);
                 oldCustomer.setDeliveryAddress(deliveryAddress);
+                customersDAO.update(oldCustomer);
                 return CustomerView.dump(oldCustomer);
             } catch (Exception e) {
                 return e;

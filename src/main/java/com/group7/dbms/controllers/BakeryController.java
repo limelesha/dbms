@@ -56,6 +56,7 @@ public class BakeryController {
             oldBakery.setAddress(bakery.getAddress());
             oldBakery.setOpenTime(bakery.getOpenTime());
             oldBakery.setCloseTime(bakery.getCloseTime());
+            bakeriesDAO.update(oldBakery);
             return BakeryView.dump(oldBakery);
         });
 
