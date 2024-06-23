@@ -17,20 +17,16 @@ import org.hibernate.annotations.Check;
 @Check(constraints="openTime < closeTime")
 public class Bakery {
 
-    @RepresentationIncluded(RepresentationType.IDENTIFIER)
     @Id
     @GeneratedValue
     private Long id;
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
     private String address;
 
-    @RepresentationIncluded(RepresentationType.FULL)
     @Basic(optional=false)
     private LocalTime openTime;
 
-    @RepresentationIncluded(RepresentationType.FULL)
     @Basic(optional=false)
     private LocalTime closeTime;
 

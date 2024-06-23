@@ -13,16 +13,13 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Person {
 
-    @RepresentationIncluded(RepresentationType.IDENTIFIER)
     @Id
     @GeneratedValue
     private Long id;
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
     private String name;
 
-    @RepresentationIncluded(RepresentationType.FULL)
     @Basic(optional=false)
     private String email;
 

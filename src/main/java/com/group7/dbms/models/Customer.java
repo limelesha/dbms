@@ -16,13 +16,11 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Customer {
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Id
     @ManyToOne(fetch=FetchType.LAZY)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Person person;
 
-    @RepresentationIncluded(RepresentationType.FULL)
     private String deliveryAddress;
 
     @OneToMany(mappedBy="customer")

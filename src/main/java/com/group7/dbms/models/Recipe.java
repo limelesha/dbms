@@ -16,17 +16,14 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Recipe {
 
-    @RepresentationIncluded(RepresentationType.IDENTIFIER)
     @Id
     @GeneratedValue
     private Long id;
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @ManyToOne(fetch=FetchType.LAZY)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Product product;
 
-    @RepresentationIncluded(RepresentationType.FULL)
     @Basic(optional=false)
     private String instructions;
 

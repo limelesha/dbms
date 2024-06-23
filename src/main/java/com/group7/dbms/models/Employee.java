@@ -16,17 +16,14 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Employee {
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Id
     @ManyToOne(fetch=FetchType.LAZY)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Person person;
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @RepresentationIncluded(RepresentationType.FULL)
     @ManyToOne(fetch=FetchType.LAZY)
     @OnDelete(action=OnDeleteAction.RESTRICT)
     private Bakery location;

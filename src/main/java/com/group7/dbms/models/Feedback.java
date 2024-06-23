@@ -17,7 +17,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 public class Feedback {
 
-    @RepresentationIncluded(RepresentationType.IDENTIFIER)
     @Id
     @GeneratedValue
     private Long id;

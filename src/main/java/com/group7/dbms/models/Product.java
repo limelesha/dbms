@@ -14,20 +14,16 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Product {
 
-    @RepresentationIncluded(RepresentationType.IDENTIFIER)
     @Id
     @GeneratedValue
     private Long id;
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
     private String name;
 
-    @RepresentationIncluded(RepresentationType.FULL)
     @Basic(optional=false)
     private String description;
 
-    @RepresentationIncluded(RepresentationType.PARTIAL)
     @Basic(optional=false)
     private BigDecimal price;
 
