@@ -36,7 +36,7 @@ public class CustomerController {
 
         Spark.redirect.get("/customers", "/customers/");
 
-        // add customer
+        // add customer 
         Spark.post("/customers/", (req, res) -> {
             try {
                 JsonObject json = Json.parse(req.body()).asObject();
@@ -45,17 +45,31 @@ public class CustomerController {
                 customer.setDeliveryAddress(CustomerDeserializer.extractDeliveryAddress(json));
                 customer = customersDAO.save(customer);
                 res.status(201);
-                //return customer;
-                return CustomerView.dump(customer);
+                return CustomerView.dump(customer); 
             } catch (Exception e) {
                 return e;
             }
-            
         });
 
-        // // update
+        // update (can only update address)
+        Spark.put("/customers/:customer-id", (req, res) -> {
+            try {
+                Long id = Long.parseLong(req.params(":customer-id"));
+                JsonObject json = Json.parse(req.body()).asObject();
+                String deliveryAddress = CustomerDeserializer.extractDeliveryAddress(json);
+                Customer oldCustomer = customersDAO.getByID(id);
+                oldCustomer.setDeliveryAddress(deliveryAddress);
+                return CustomerView.dump(oldCustomer);
+            } catch (Exception e) {
+                return e;
+            }
+        });
 
-        // // delete 
-        // 
+        // delete 
+        Spark.delete("/customers/:customer-id", (req, res) -> {
+            Long id = Long.parseLong(req.params(":customer-id"));
+            customersDAO.remove(id);
+            return "Customer deleted";
+        });
     }
 }

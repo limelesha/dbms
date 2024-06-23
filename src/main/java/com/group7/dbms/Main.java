@@ -2,9 +2,6 @@ package com.group7.dbms;
 
 import java.math.BigDecimal;
 
-// import com.google.gson.Gson;
-// import com.google.gson.GsonBuilder;
-
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -14,31 +11,34 @@ import spark.Spark;
 
 public class Main {
 
-    // private static Gson partialRepresentationGson;
-    // private static Gson fullRepresentationGson;
-
     private static ProductsDAO productsDAO;
     private static RecipesDAO recipesDAO;
     private static BakeriesDAO bakeriesDAO;
     private static CustomersDAO customersDAO;
+    private static EmployeesDAO employeesDAO;
+    private static FeedbackDAO feedbackDAO;
     public static void main(String[] args) 
     throws Exception {
-        // partialRepresentationGson = setUpGson(RepresentationType.PARTIAL);
-        // fullRepresentationGson = setUpGson(RepresentationType.FULL);
         SessionFactory sessionFactory = setUpSessionFactory();
         productsDAO = new HibernateProductsDAO(sessionFactory);
         recipesDAO = new HibernateRecipesDAO(sessionFactory);
         bakeriesDAO = new HibernateBakeriesDAO(sessionFactory);
         customersDAO = new HibernateCustomersDAO(sessionFactory);
+        employeesDAO = new HibernateEmployeesDAO(sessionFactory);
+        feedbackDAO = new HibernateFeedbackDAO(sessionFactory);
         ProductController productController = new ProductController(productsDAO);
         RecipeController recipeController = new RecipeController(recipesDAO, productsDAO);
         BakeryController bakeryController = new BakeryController(bakeriesDAO);
         CustomerController customerController = new CustomerController(customersDAO);
+        EmployeeController employeeController = new EmployeeController(employeesDAO);
+        FeedbackController feedbackController = new FeedbackController(feedbackDAO);
 
         productController.ignite();
         recipeController.ignite();
         bakeryController.ignite();
         customerController.ignite();
+        employeeController.ignite();
+        feedbackController.ignite();
 
         Spark.awaitInitialization();
     }
