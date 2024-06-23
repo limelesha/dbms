@@ -53,6 +53,9 @@ public class HibernateEmployeesDAO implements EmployeesDAO {
     @Override
     public Employee save(Employee employee) {
         return sessionFactory.fromTransaction(session -> {
+            Person person = employee.getPerson();
+            session.persist(person);
+            session.flush();
             session.persist(employee);
             session.flush();
             return employee;

@@ -36,6 +36,9 @@ public class HibernateCustomersDAO implements CustomersDAO {
     @Override
     public Customer save(Customer customer) {
         return sessionFactory.fromTransaction(session -> {
+            Person person = customer.getPerson();
+            session.persist(person);
+            session.flush();
             session.persist(customer);
             session.flush();
             return customer;
