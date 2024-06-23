@@ -22,7 +22,7 @@ public class EmployeeView {
         return Json.object()
             .add("person", employee.getPerson().getId())
             .add("role", employee.getRole().toString())
-            .add("location", employee.getLocation().getId());
+            .add("location", employee.getLocation() != null ? employee.getLocation().getId() : 0);
     }
 
     private static JsonValue partial(Employee employee) {
