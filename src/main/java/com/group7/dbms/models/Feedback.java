@@ -21,11 +21,11 @@ public class Feedback {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Product product;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Person author;
 

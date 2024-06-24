@@ -17,6 +17,7 @@ public class Main {
     private static CustomersDAO customersDAO;
     private static EmployeesDAO employeesDAO;
     private static FeedbackDAO feedbackDAO;
+    private static PersonsDAO personsDAO;
     public static void main(String[] args) 
     throws Exception {
         SessionFactory sessionFactory = setUpSessionFactory();
@@ -26,12 +27,13 @@ public class Main {
         customersDAO = new HibernateCustomersDAO(sessionFactory);
         employeesDAO = new HibernateEmployeesDAO(sessionFactory);
         feedbackDAO = new HibernateFeedbackDAO(sessionFactory);
+        personsDAO = new HibernatePersonsDAO(sessionFactory);
         ProductController productController = new ProductController(productsDAO);
         RecipeController recipeController = new RecipeController(recipesDAO, productsDAO);
         BakeryController bakeryController = new BakeryController(bakeriesDAO);
         CustomerController customerController = new CustomerController(customersDAO);
         EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO);
-        FeedbackController feedbackController = new FeedbackController(feedbackDAO);
+        FeedbackController feedbackController = new FeedbackController(feedbackDAO, personsDAO, productsDAO);
 
         productController.ignite();
         recipeController.ignite();
