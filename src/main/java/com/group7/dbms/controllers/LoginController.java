@@ -27,7 +27,10 @@ public class LoginController {
                 String email = json.getString("email", "");
                 String passwordHash = json.getString("passwordHash", "");
                 Person person = personsDAO.getByEmail(email);
-                if (person != null && person.getPasswordHash().equals(passwordHash)) {
+                if (person == null) {
+                    return "Not registered";
+                }
+                if (person.getPasswordHash().equals(passwordHash)) {
                     req.session(true);
                     req.session().attribute("person", person);
                     res.status(200);
