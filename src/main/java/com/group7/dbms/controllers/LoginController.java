@@ -28,6 +28,7 @@ public class LoginController {
                 String passwordHash = json.getString("passwordHash", "");
                 Person person = personsDAO.getByEmail(email);
                 if (person != null && person.getPasswordHash().equals(passwordHash)) {
+                    req.session(true);
                     req.session().attribute("person", person);
                     res.status(200);
                     return "Logged in";

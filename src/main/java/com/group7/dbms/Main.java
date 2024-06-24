@@ -47,7 +47,6 @@ public class Main {
 
         Spark.before("/recipes/*", (req, res) -> {
             Person person = req.session().attribute("person");
-            //System.out.println(person); <- null 
             if (!(employeesDAO.isEmployee(person))) {
                 res.status(403);
                 Spark.halt("Not allowed");
@@ -76,17 +75,5 @@ public class Main {
                 .buildSessionFactory();
         
         return sessionFactory;
-    }
-    public static boolean isEmployee(Request req) {
-        try {
-            Object user = req.session().attribute("person");
-       // System.out.println(req.session()); <- diff session with every request??? 
-            Person person = req.session().attribute("person");
-            return employeesDAO.isEmployee(person);
-        } catch (Exception e) {
-            System.out.println(e); // <- nullpointerexception because of that
-            return false;
-        }
-        
     }
 }
