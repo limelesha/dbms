@@ -6,14 +6,18 @@ import com.eclipsesource.json.JsonArray;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 
 public class EmployeeController {
     private EmployeesDAO employeesDAO;
     private BakeriesDAO bakeriesDAO;
-
-    public EmployeeController(EmployeesDAO employeesDAO, BakeriesDAO bakeriesDAO) {
+    private PersonsDAO personsDAO;
+    private Argon2 argon2 = Argon2Factory.create();
+    public EmployeeController(EmployeesDAO employeesDAO, BakeriesDAO bakeriesDAO, PersonsDAO personsDAO) {
         this.employeesDAO = employeesDAO;
         this.bakeriesDAO = bakeriesDAO;
+        this.personsDAO = personsDAO;
     }
 
     public void ignite() {
@@ -42,7 +46,34 @@ public class EmployeeController {
 
         Spark.redirect.get("/employees", "/employees/");
 
-        // add employee
+        // register employee 
+        Spark.post("/employees/register", (req, res) -> {
+            try {
+                JsonObject json = Json.parse(req.body()).asObject();
+                String email = json.getString("email", "");
+                String password = json.getString("password", "");
+                String name = json.getString("name", "");
+                if (personsDAO.getByEmail(email) == null) {
+                    Person person = new Person();
+                    person.setEmail(email);
+                    person.setName(name);
+                    person.setPasswordHash(argon2.hash(2, 66536, 1, password));
+                    Employee employee = new Employee();
+                    employee.setPerson(person);
+                    employee.setRole(EmployeeDeserializer.extractRole(json));
+                    Bakery location = bakeriesDAO.getByID(EmployeeDeserializer.extractLocationId(json));
+                    employee.setLocation(location);
+                    employee = employeesDAO.save(employee);
+                    res.status(201);
+                    return PersonView.dump(person);
+                } else return "Email taken!";
+                
+            } catch (Exception e) {
+                return e;
+            }
+        });
+
+        // add employee ?
         Spark.post("/employees/", (req, res) -> {
             try {
                 JsonObject json = Json.parse(req.body()).asObject();

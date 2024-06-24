@@ -34,7 +34,7 @@ public class Main {
         RecipeController recipeController = new RecipeController(recipesDAO, productsDAO);
         BakeryController bakeryController = new BakeryController(bakeriesDAO);
         CustomerController customerController = new CustomerController(customersDAO);
-        EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO);
+        EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO, personsDAO);
         FeedbackController feedbackController = new FeedbackController(feedbackDAO, personsDAO, productsDAO);
         LoginController loginController = new LoginController(personsDAO, employeesDAO, customersDAO);
         productController.ignite();
@@ -52,6 +52,20 @@ public class Main {
                 Spark.halt("Not allowed");
             }
         });
+        Spark.before("/customers/*", (req, res) -> {
+            Person person = req.session().attribute("person");
+            if (!(employeesDAO.isEmployee(person))) {
+                res.status(403);
+                Spark.halt("Not allowed");
+            }
+        });
+        // Spark.before("/employees/*", (req, res) -> {
+        //     Person person = req.session().attribute("person");
+        //     if (!(employeesDAO.isEmployee(person))) {
+        //         res.status(403);
+        //         Spark.halt("Not allowed");
+        //     }
+        // });
         Spark.awaitInitialization();
     }
 
