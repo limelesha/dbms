@@ -92,4 +92,15 @@ public class HibernateEmployeesDAO implements EmployeesDAO {
     public void remove(Long id) {
         remove(getByID(id));
     }
+
+    @Override
+    public boolean isEmployee(Person person) {
+        Employee employee = sessionFactory.fromTransaction(session -> {
+            return session.createQuery(
+                "FROM Employee WHERE person.id = :id", Employee.class)
+                    .setParameter("id", person.getId())
+                    .uniqueResult();
+        });
+        return (employee == null) ? false : true;
+    }
 }

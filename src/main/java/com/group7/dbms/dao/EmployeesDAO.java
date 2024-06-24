@@ -13,4 +13,5 @@ public interface EmployeesDAO {
     public void update(Employee employee);
     public void remove(Long id);
     public void remove(Employee employee);
+    public boolean isEmployee(Person person);
 }
