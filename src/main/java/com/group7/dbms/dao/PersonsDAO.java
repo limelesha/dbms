@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface PersonsDAO {
     public Person getByID(Long id);
+    public Person getByEmail(String email);
     public List<Person> getAllPersons();
     public Person save(Person person);
     public void update(Person person);

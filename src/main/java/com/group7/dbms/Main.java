@@ -36,7 +36,7 @@ public class Main {
         CustomerController customerController = new CustomerController(customersDAO);
         EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO);
         FeedbackController feedbackController = new FeedbackController(feedbackDAO, personsDAO, productsDAO);
-        LoginController loginController = new LoginController(employeesDAO, customersDAO);
+        LoginController loginController = new LoginController(personsDAO, employeesDAO, customersDAO);
         productController.ignite();
         recipeController.ignite();
         bakeryController.ignite();
@@ -46,12 +46,12 @@ public class Main {
         loginController.ignite();
 
         Spark.before("/recipes/*", (req, res) -> {
-            Object person = req.session().attribute("person");
-            if (!(isEmployee(req))) {
+            Person person = req.session().attribute("person");
+            //System.out.println(person); <- null 
+            if (!(employeesDAO.isEmployee(person))) {
                 res.status(403);
                 Spark.halt("Not allowed");
             }
-
         });
         Spark.awaitInitialization();
     }
@@ -78,8 +78,15 @@ public class Main {
         return sessionFactory;
     }
     public static boolean isEmployee(Request req) {
-        Object user = req.session().attribute("person");
+        try {
+            Object user = req.session().attribute("person");
        // System.out.println(req.session()); <- diff session with every request??? 
-        return user instanceof Employee;
+            Person person = req.session().attribute("person");
+            return employeesDAO.isEmployee(person);
+        } catch (Exception e) {
+            System.out.println(e); // <- nullpointerexception because of that
+            return false;
+        }
+        
     }
 }
