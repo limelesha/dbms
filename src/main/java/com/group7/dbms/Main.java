@@ -47,6 +47,10 @@ public class Main {
 
         Spark.before("/recipes/*", (req, res) -> {
             Person person = req.session().attribute("person");
+            if (person == null) {
+                res.status(401);
+                Spark.halt("Not authorized!");
+            }
             if (!(employeesDAO.isEmployee(person))) {
                 res.status(403);
                 Spark.halt("Not allowed");
@@ -54,18 +58,26 @@ public class Main {
         });
         Spark.before("/customers/*", (req, res) -> {
             Person person = req.session().attribute("person");
+            if (person == null) {
+                res.status(401);
+                Spark.halt("Not authorized!");
+            }
             if (!(employeesDAO.isEmployee(person))) {
                 res.status(403);
                 Spark.halt("Not allowed");
             }
         });
-        // Spark.before("/employees/*", (req, res) -> {
-        //     Person person = req.session().attribute("person");
-        //     if (!(employeesDAO.isEmployee(person))) {
-        //         res.status(403);
-        //         Spark.halt("Not allowed");
-        //     }
-        // });
+        Spark.before("/employees/*", (req, res) -> {
+            Person person = req.session().attribute("person");
+            if (person == null) {
+                res.status(401);
+                Spark.halt("Not authorized!");
+            }
+            if (!(employeesDAO.isEmployee(person))) {
+                res.status(403);
+                Spark.halt("Not allowed");
+            }
+        });
         Spark.awaitInitialization();
     }
 
