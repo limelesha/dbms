@@ -37,19 +37,20 @@ public class CustomerController {
         Spark.redirect.get("/customers", "/customers/");
 
         // add customer 
-        Spark.post("/customers/", (req, res) -> {
-            try {
-                JsonObject json = Json.parse(req.body()).asObject();
-                Customer customer = new Customer();
-                customer.setPerson(CustomerDeserializer.extractPerson(json));
-                customer.setDeliveryAddress(CustomerDeserializer.extractDeliveryAddress(json));
-                customer = customersDAO.save(customer);
-                res.status(201);
-                return CustomerView.dump(customer); 
-            } catch (Exception e) {
-                return e;
-            }
-        });
+        // TODO - change method to assign customer by person id probably
+        // Spark.post("/customers/", (req, res) -> {
+        //     try {
+        //         JsonObject json = Json.parse(req.body()).asObject();
+        //         Customer customer = new Customer();
+        //         customer.setPerson(CustomerDeserializer.extractPerson(json));
+        //         customer.setDeliveryAddress(CustomerDeserializer.extractDeliveryAddress(json));
+        //         customer = customersDAO.save(customer);
+        //         res.status(201);
+        //         return CustomerView.dump(customer); 
+        //     } catch (Exception e) {
+        //         return e;
+        //     }
+        // });
 
         // update (can only update address)
         Spark.put("/customers/:customer-id", (req, res) -> {

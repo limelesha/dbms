@@ -74,21 +74,21 @@ public class EmployeeController {
         });
 
         // add employee ?
-        Spark.post("/employees/", (req, res) -> {
-            try {
-                JsonObject json = Json.parse(req.body()).asObject();
-                Employee employee = new Employee();
-                employee.setPerson(CustomerDeserializer.extractPerson(json));
-                employee.setRole(EmployeeDeserializer.extractRole(json));
-                Bakery location = bakeriesDAO.getByID(EmployeeDeserializer.extractLocationId(json));
-                employee.setLocation(location);
-                employee = employeesDAO.save(employee);
-                res.status(201);
-                return EmployeeView.dump(employee); 
-            } catch (Exception e) {
-                return e;
-            }
-        });
+        // Spark.post("/employees/", (req, res) -> {
+        //     try {
+        //         JsonObject json = Json.parse(req.body()).asObject();
+        //         Employee employee = new Employee();
+        //         employee.setPerson(CustomerDeserializer.extractPerson(json));
+        //         employee.setRole(EmployeeDeserializer.extractRole(json));
+        //         Bakery location = bakeriesDAO.getByID(EmployeeDeserializer.extractLocationId(json));
+        //         employee.setLocation(location);
+        //         employee = employeesDAO.save(employee);
+        //         res.status(201);
+        //         return EmployeeView.dump(employee); 
+        //     } catch (Exception e) {
+        //         return e;
+        //     }
+        // });
 
         // update
         Spark.put("/employees/:employee-id", (req, res) -> {
