@@ -3,6 +3,7 @@ package com.group7.dbms;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.Session;
 
 public class HibernateCustomersDAO implements CustomersDAO {
     private SessionFactory sessionFactory;
@@ -21,6 +22,14 @@ public class HibernateCustomersDAO implements CustomersDAO {
                 "FROM Customer WHERE person.id = " + id, Customer.class
             ).uniqueResult();
         });
+        return customer;
+    }
+    public Customer getByEmail(String email) {
+        Session session = sessionFactory.openSession();
+        Customer customer = session.createQuery("from Customer where person.email = :email", Customer.class)
+                                .setParameter("email", email)
+                                .uniqueResult();
+        session.close();
         return customer;
     }
 

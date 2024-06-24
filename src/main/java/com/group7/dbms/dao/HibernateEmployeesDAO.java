@@ -3,6 +3,7 @@ package com.group7.dbms;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.Session;
 
 public class HibernateEmployeesDAO implements EmployeesDAO {
     private SessionFactory sessionFactory;
@@ -23,6 +24,14 @@ public class HibernateEmployeesDAO implements EmployeesDAO {
         });
     }
 
+    public Employee getByEmail(String email) {
+        Session session = sessionFactory.openSession();
+        Employee employee = session.createQuery("from Employee where person.email = :email", Employee.class)
+                                .setParameter("email", email)
+                                .uniqueResult();
+        session.close();
+        return employee;
+    }
     @Override
     public List<Employee> getByBakeryId(Long id) {
         return sessionFactory.fromTransaction(session -> {

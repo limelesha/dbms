@@ -8,6 +8,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.SessionFactory;
 
 import spark.Spark;
+import spark.Request;
+import spark.Response;
 
 public class Main {
 
@@ -34,14 +36,23 @@ public class Main {
         CustomerController customerController = new CustomerController(customersDAO);
         EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO);
         FeedbackController feedbackController = new FeedbackController(feedbackDAO, personsDAO, productsDAO);
-
+        LoginController loginController = new LoginController(employeesDAO, customersDAO);
         productController.ignite();
         recipeController.ignite();
         bakeryController.ignite();
         customerController.ignite();
         employeeController.ignite();
         feedbackController.ignite();
+        loginController.ignite();
 
+        Spark.before("/recipes/*", (req, res) -> {
+            Object person = req.session().attribute("person");
+            if (!(isEmployee(req))) {
+                res.status(403);
+                Spark.halt("Not allowed");
+            }
+
+        });
         Spark.awaitInitialization();
     }
 
@@ -66,5 +77,9 @@ public class Main {
         
         return sessionFactory;
     }
-
+    public static boolean isEmployee(Request req) {
+        Object user = req.session().attribute("person");
+       // System.out.println(req.session()); <- diff session with every request??? 
+        return user instanceof Employee;
+    }
 }

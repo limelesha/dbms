@@ -17,7 +17,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Employee {
 
     @Id
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Person person;
 

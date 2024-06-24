@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface EmployeesDAO {
     public Employee getByID(Long id);
+    public Employee getByEmail(String email);
     public List<Employee> getByBakeryId(Long id);
     public List<Employee> getByRole(Role role);
     public List<Employee> getAllEmployees();
