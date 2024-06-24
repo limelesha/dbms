@@ -75,4 +75,16 @@ public class HibernateCustomersDAO implements CustomersDAO {
     public void remove(Long id) {
         remove(getByID(id));
     }
+
+
+    @Override
+    public boolean isCustomer(Person person) {
+        Customer customer = sessionFactory.fromTransaction(session -> {
+            return session.createQuery(
+                "FROM Customer WHERE person.id = :id", Customer.class)
+                    .setParameter("id", person.getId())
+                    .uniqueResult();
+        });
+        return (customer == null) ? false : true;
+    }
 }

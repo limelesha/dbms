@@ -11,4 +11,5 @@ public interface CustomersDAO {
     public void update(Customer customer);
     public void remove(Long id);
     public void remove(Customer customer);
+    public boolean isCustomer(Person person);
 }
