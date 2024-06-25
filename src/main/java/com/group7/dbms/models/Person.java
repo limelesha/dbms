@@ -3,7 +3,7 @@ package com.group7.dbms;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,13 +17,13 @@ public class Person {
     @GeneratedValue
     private Long id;
 
-    @Basic(optional=false)
+    @Column(nullable=false)
     private String name;
 
-    @Basic(optional=false)
+    @Column(nullable=false, unique=true)
     private String email;
 
-    @Basic(optional=false)
+    @Column(nullable=false)
     private String passwordHash;
 
     @OneToMany(mappedBy="author")

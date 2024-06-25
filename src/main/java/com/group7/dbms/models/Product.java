@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+
+import org.hibernate.annotations.Check;
 
 
 @Entity
@@ -18,13 +20,14 @@ public class Product {
     @GeneratedValue
     private Long id;
 
-    @Basic(optional=false)
+    @Column(nullable=false, unique=true)
     private String name;
 
-    @Basic(optional=false)
+    @Column(nullable=false)
     private String description;
 
-    @Basic(optional=false)
+    @Column(nullable=false)
+    @Check(constraints="price > 0")
     private BigDecimal price;
 
     @OneToMany(mappedBy="product")

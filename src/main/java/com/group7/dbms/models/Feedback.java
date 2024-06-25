@@ -8,6 +8,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.OnDelete;
@@ -15,6 +17,11 @@ import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
+@Table(
+    uniqueConstraints={
+        @UniqueConstraint(columnNames={"product_id", "author_id"})
+    }
+)
 public class Feedback {
 
     @Id

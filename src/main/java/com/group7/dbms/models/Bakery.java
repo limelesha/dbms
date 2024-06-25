@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -21,13 +21,13 @@ public class Bakery {
     @GeneratedValue
     private Long id;
 
-    @Basic(optional=false)
+    @Column(nullable=false, unique=true)
     private String address;
 
-    @Basic(optional=false)
+    @Column(nullable=false)
     private LocalTime openTime;
 
-    @Basic(optional=false)
+    @Column(nullable=false)
     private LocalTime closeTime;
 
     @OneToMany(mappedBy="location")
