@@ -84,6 +84,29 @@ public class Main {
                 Spark.halt("Not allowed");
             }
         });
+
+        Spark.before("/orders/all/", (req, res) -> {
+            Person person = req.session().attribute("person");
+            if (person == null) {
+                res.status(401);
+                Spark.halt("Not authorized!");
+            }
+            if (!(employeesDAO.isEmployee(person))) {
+                res.status(403);
+                Spark.halt("Not allowed");
+            }
+        });
+        Spark.before("/orders/:customer-id", (req, res) -> {
+            Person person = req.session().attribute("person");
+            if (person == null) {
+                res.status(401);
+                Spark.halt("Not authorized!");
+            }
+            // if (!(customersDAO.isCustomer(person)) && !(employeesDAO.isEmployee(person))) {
+            //     res.status(403);
+            //     Spark.halt("Not allowed");
+            // }
+        });
         Spark.awaitInitialization();
     }
 

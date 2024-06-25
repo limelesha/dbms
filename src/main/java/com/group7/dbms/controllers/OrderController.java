@@ -41,6 +41,7 @@ public class OrderController {
                     JsonValue json = Json.object()
                                     .add("id", id)
                                     .add("items", arr)
+                                    .add("status", order.getStatus().name())
                                     .add("customer", order.getCustomer().getPerson().getId());
                     res.type("application/json");
                     return json;
