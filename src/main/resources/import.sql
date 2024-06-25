@@ -8,9 +8,9 @@ alter table recipe alter column id set default nextval('Recipe_SEQ');
 
 insert into bakery(address, openTime, closeTime) values ('Czarnowiejska 66, 30-059 Kraków', '7:00', '19:00');
 
-insert into person(name, email, passwordHash) values ('Watson Baker', 'watson@example.com', '$argon2i$v=19$m=4096,t=3,p=1$ZGVhZGJlZWY$QH3bhgIIiPQIiMec5tsiC2qwBINf72aQYqdVuzuZs7s');  -- qwe
-insert into person(name, email, passwordHash) values ('Jane Doe', 'jane@example.com', '$argon2i$v=19$m=4096,t=3,p=1$ZGVhZGJlZWY$KLOaDqMGU5Pde+hOHDdTrJe6PTbk7OxkLVutAziyYWc');  -- asd
-insert into person(name, email, passwordHash) values ('SulfuricAcid54', 'sulfur@example.com', '$argon2i$v=19$m=4096,t=3,p=1$ZGVhZGJlZWY$EHoIZp1V+Z0fcohvQQ4noSpfbCY+1kR5/35Uc6LFWCw');  -- zxc
+insert into person(name, email, passwordHash) values ('Watson Baker', 'watson@example.com', '$argon2i$v=19$m=66536,t=2,p=1$n7xaCSfgVhlbZn5ZwDOueg$ObxTJgcXahX0S8FwMibTvvT/cdCPDmKUe8GDQtw1hEE');  -- qwe
+insert into person(name, email, passwordHash) values ('Jane Doe', 'jane@example.com', '$argon2i$v=19$m=66536,t=2,p=1$i/cb3AYjZeA2QhYNolopsQ$2ka/srylvGXcQJswPqlYo650wlQH7nXctZKHqvtHA2E');  -- asd
+insert into person(name, email, passwordHash) values ('SulfuricAcid54', 'sulfur@example.com', '$argon2i$v=19$m=66536,t=2,p=1$3a1c7E7CoN0a4ouOSqRKog$BJ76mz1lbyb3pd6bwTLDPfms0TGzPDkvKgu5F0DWuio');  -- zxc
 
 insert into customer(person_id, deliveryAddress) values ((select id from person where name='Jane Doe'), null);
 insert into customer(person_id, deliveryAddress) values ((select id from person where name='SulfuricAcid54'), 'That st., 12');
