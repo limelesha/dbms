@@ -41,7 +41,7 @@ public class Main {
         EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO, personsDAO);
         FeedbackController feedbackController = new FeedbackController(feedbackDAO, personsDAO, productsDAO);
         LoginController loginController = new LoginController(personsDAO, employeesDAO, customersDAO);
-        OrderController orderController = new OrderController(ordersDAO, orderItemsDAO);
+        OrderController orderController = new OrderController(ordersDAO, orderItemsDAO, customersDAO, productsDAO);
         productController.ignite();
         recipeController.ignite();
         bakeryController.ignite();

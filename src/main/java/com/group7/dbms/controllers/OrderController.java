@@ -15,10 +15,14 @@ import spark.Spark;
 public class OrderController {
     private OrdersDAO ordersDAO;
     private OrderItemsDAO orderItemsDAO;
+    private CustomersDAO customersDAO;
+    private ProductsDAO productsDAO;
 
-    public OrderController(OrdersDAO ordersDAO, OrderItemsDAO orderItemsDAO) {
+    public OrderController(OrdersDAO ordersDAO, OrderItemsDAO orderItemsDAO, CustomersDAO customersDAO, ProductsDAO productsDAO) {
         this.ordersDAO = ordersDAO;
         this.orderItemsDAO = orderItemsDAO;
+        this.customersDAO = customersDAO;
+        this.productsDAO = productsDAO;
     }
 
     public void ignite() {
@@ -50,7 +54,7 @@ public class OrderController {
         });
 
         // get all
-        Spark.get("/orders/", (req, res) -> {
+        Spark.get("/orders/all/", (req, res) -> {
             try {
                 res.type("application/json");
                 List<Order> orders = ordersDAO.getAllOrders();
@@ -66,23 +70,34 @@ public class OrderController {
                 return e;
             }
         });
-        Spark.redirect.get("/orders", "/orders/");
+        //Spark.redirect.get("/orders", "/orders/");
 
-        // Spark.post("/orders/:customer-id", (req, res) -> {
-        //     try {
-        //         Long customerId = Long.parseLong(req.params(":customer-id"));
-        //         JsonObject json = Json.parse(req.body()).asObject();
-        //         Order order = new Order();
-        //         JsonArray jitems = json.get("items").asArray();
-        //         for (JsonValue jitem : jitems) {
-
-        //         }
-        //         order = ordersDAO.save(order);
-        //         res.status(201);
-        //         return "";
-        //     } catch (Exception e) {
-        //         return e;
-        //     }
-        // });
+        Spark.post("/orders/:customer-id", (req, res) -> {
+            try {
+                Long customerId = Long.parseLong(req.params(":customer-id"));
+                Customer customer = customersDAO.getByID(customerId);
+                JsonObject json = Json.parse(req.body()).asObject();
+                Order order = new Order();
+                order.setCustomer(customer);
+                JsonArray jitems = json.get("items").asArray();
+                for (JsonValue jitem : jitems.values()) {
+                    JsonObject jitem2 = jitem.asObject();
+                    OrderItem item = new OrderItem();
+                    Long productId = jitem2.getLong("product", 0);
+                    Integer quantity = jitem2.getInt("quantity", 1);
+                    Product product = productsDAO.getByID(productId);
+                    if (product != null) {
+                        item.setProduct(product);
+                        item.setQuantity(quantity);
+                        item = orderItemsDAO.save(item);
+                    } else { return "Product not found"; }
+                }
+                order = ordersDAO.save(order);
+                res.status(201);
+                return "Order placed";
+            } catch (Exception e) {
+                return e;
+            }
+        });
     }
 }
