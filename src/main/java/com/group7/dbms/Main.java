@@ -20,6 +20,8 @@ public class Main {
     private static EmployeesDAO employeesDAO;
     private static FeedbackDAO feedbackDAO;
     private static PersonsDAO personsDAO;
+    private static OrderItemsDAO orderItemsDAO;
+    private static OrdersDAO ordersDAO;
     public static void main(String[] args) 
     throws Exception {
         SessionFactory sessionFactory = setUpSessionFactory();
@@ -30,6 +32,8 @@ public class Main {
         employeesDAO = new HibernateEmployeesDAO(sessionFactory);
         feedbackDAO = new HibernateFeedbackDAO(sessionFactory);
         personsDAO = new HibernatePersonsDAO(sessionFactory);
+        orderItemsDAO = new HibernateOrderItemsDAO(sessionFactory);
+        ordersDAO = new HibernateOrdersDAO(sessionFactory);
         ProductController productController = new ProductController(productsDAO);
         RecipeController recipeController = new RecipeController(recipesDAO, productsDAO);
         BakeryController bakeryController = new BakeryController(bakeriesDAO);
@@ -37,6 +41,7 @@ public class Main {
         EmployeeController employeeController = new EmployeeController(employeesDAO, bakeriesDAO, personsDAO);
         FeedbackController feedbackController = new FeedbackController(feedbackDAO, personsDAO, productsDAO);
         LoginController loginController = new LoginController(personsDAO, employeesDAO, customersDAO);
+        OrderController orderController = new OrderController(ordersDAO, orderItemsDAO);
         productController.ignite();
         recipeController.ignite();
         bakeryController.ignite();
@@ -44,6 +49,7 @@ public class Main {
         employeeController.ignite();
         feedbackController.ignite();
         loginController.ignite();
+        orderController.ignite();
 
         Spark.before("/recipes/*", (req, res) -> {
             Person person = req.session().attribute("person");
@@ -92,8 +98,8 @@ public class Main {
                 .addAnnotatedClass(Customer.class)
                 .addAnnotatedClass(Employee.class)
                 .addAnnotatedClass(Feedback.class)
-                .addAnnotatedClass(Order.class)
                 .addAnnotatedClass(OrderItem.class)
+                .addAnnotatedClass(Order.class)
                 .addAnnotatedClass(Person.class)
                 .addAnnotatedClass(Product.class)
                 .addAnnotatedClass(Recipe.class)

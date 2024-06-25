@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.FetchType;
@@ -17,13 +18,14 @@ import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
+@Table(name="order2")
 public class Order {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Customer customer;
 

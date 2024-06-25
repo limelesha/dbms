@@ -20,11 +20,11 @@ public class OrderItem {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Order order;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @OnDelete(action=OnDeleteAction.CASCADE)
     private Product product;
 
