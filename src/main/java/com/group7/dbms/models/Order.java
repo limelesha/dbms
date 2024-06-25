@@ -32,7 +32,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(mappedBy="order")
+    @OneToMany(mappedBy="order", fetch=FetchType.EAGER)
     private Set<OrderItem> items;
 
     public Order() {}

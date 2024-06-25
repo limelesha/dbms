@@ -34,13 +34,13 @@ public class OrderController {
                 if (order != null) {
                     Set<OrderItem> items = order.getItems();
                     JsonArray arr = Json.array();
-                    // for (OrderItem item : items) {
-                    //     arr.add(new JsonObject().add("product", item.getProduct().getId())
-                    //         .add("quantity", item.getQuantity()));
-                    // }
+                    for (OrderItem item : items) {
+                        arr.add(new JsonObject().add("product", item.getProduct().getId())
+                            .add("quantity", item.getQuantity()));
+                    }
                     JsonValue json = Json.object()
                                     .add("id", id)
-                                    //.add("items", arr)
+                                    .add("items", arr)
                                     .add("customer", order.getCustomer().getPerson().getId());
                     res.type("application/json");
                     return json;
@@ -79,6 +79,8 @@ public class OrderController {
                 JsonObject json = Json.parse(req.body()).asObject();
                 Order order = new Order();
                 order.setCustomer(customer);
+                order.setStatus(OrderStatus.PENDING);
+                order = ordersDAO.save(order);
                 JsonArray jitems = json.get("items").asArray();
                 for (JsonValue jitem : jitems.values()) {
                     JsonObject jitem2 = jitem.asObject();
@@ -89,12 +91,16 @@ public class OrderController {
                     if (product != null) {
                         item.setProduct(product);
                         item.setQuantity(quantity);
+                        item.setOrder(order);
                         item = orderItemsDAO.save(item);
                     } else { return "Product not found"; }
                 }
-                order = ordersDAO.save(order);
+                JsonValue orderView = Json.object()
+                                    .add("orderId", order.getId())
+                                    .add("items", jitems)
+                                    .add("customer", customer.getPerson().getId());
                 res.status(201);
-                return "Order placed";
+                return orderView;
             } catch (Exception e) {
                 return e;
             }
